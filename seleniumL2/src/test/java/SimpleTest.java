@@ -6,6 +6,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import static settings.IdentifyOS.*;
 
 public class SimpleTest {
 
@@ -15,10 +16,10 @@ public class SimpleTest {
     public void start(){
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-extensions");
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/unix/chromedriver");
+        if (isUnix()){System.setProperty("webdriver.chrome.driver", "src/main/resources/unix/chromedriver");}
+        if (isWindows()){System.setProperty("webdriver.chrome.driver", "src/main/resources/windows/chromedriver.exe");}
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
-
     }
 
     @Test
