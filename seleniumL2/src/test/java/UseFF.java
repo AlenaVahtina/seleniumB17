@@ -2,12 +2,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static settings.IdentifyOS.isUnix;
 import static settings.IdentifyOS.isWindows;
@@ -17,9 +16,12 @@ public class UseFF {
 
     @Before
     public void start(){
-        if (isUnix()){System.setProperty("webdriver.gecko.driver", "src/main/resources/unix/geckodriver");}
+        if (isUnix()){System.setProperty("webdriver.gecko.driver", "src/main/resources/unix/geckodriver"); }
         if (isWindows()){System.setProperty("webdriver.gecko.driver", "src/main/resources/windows/geckodriver.exe");}
-        driver =new FirefoxDriver();
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("unexpectedAlertBehaviour", "dismiss");
+        driver =new FirefoxDriver(caps);
+        System.out.println(((HasCapabilities) driver).getCapabilities());
     }
 
     @Test
