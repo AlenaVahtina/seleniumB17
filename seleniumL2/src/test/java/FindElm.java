@@ -32,6 +32,11 @@ public class FindElm {
         int numberMenu = driver.findElements(By.cssSelector("li#app-")).size();
         for (int i=0; i<numberMenu; i++){
             driver.findElements(By.cssSelector("li#app-")).get(i).click();
+            for (int j=0; j<driver.findElements(By.cssSelector("[id^=doc-")).size(); j++){
+                driver.findElements(By.cssSelector("[id^=doc-")).get(j).click();
+                driver.findElement(By.cssSelector("h1"));
+                System.out.println("* "+driver.findElement(By.cssSelector("h1")).getText());
+            }
             driver.findElement(By.cssSelector("h1"));
             System.out.println(driver.findElement(By.cssSelector("h1")).getText());
         }
