@@ -27,9 +27,9 @@ public class Stickers {
     @Test
     public void stickerTest() {
         driver.get("http://localhost/litecart/en/");
-        int productCount = driver.findElements(By.cssSelector("[class^=product")).size();
+        int productCount = driver.findElements(By.cssSelector("[class^=product]")).size();
         System.out.println("Количестово уток "+productCount);
-        int stickerCount= driver.findElements(By.cssSelector("[class^=sticker")).size();
+        int stickerCount= driver.findElements(By.cssSelector("[class^=sticker]")).size();
         System.out.println("Количестово стикеров "+stickerCount);
         if(productCount==stickerCount){
             System.out.println("У каждого продукта есть стикер");

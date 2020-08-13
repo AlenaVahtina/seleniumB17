@@ -16,7 +16,10 @@ public class CountriesTest {
     private WebDriver driver;
     private String country1;
     private String country2;
-    private String zone;
+    private int zone;
+    private String countTimezone;
+    private String timeZone1;
+    private String timeZone2;
 
     @Before
     public void start(){
@@ -44,10 +47,21 @@ public class CountriesTest {
                 System.out.println("Страны не отсортированы");
                 return;
             }
-            System.out.println(driver.findElements(By.cssSelector("tr.row")).get(i-1).findElements(By.cssSelector("td")).get(5).getText());
-            if (!driver.findElements(By.cssSelector("tr.row")).get(i-1).findElements(By.cssSelector("td")).get(5).getText().equals("0")){
+//            System.out.println(driver.findElements(By.cssSelector("tr.row")).get(i-1).findElements(By.cssSelector("td")).get(5).getText());
+            countTimezone = driver.findElements(By.cssSelector("tr.row")).get(i).findElements(By.cssSelector("td")).get(5).getText();
+            if (!countTimezone.equals("0")){
                 driver.findElements(By.cssSelector("tr.row")).get(i).findElement(By.cssSelector("a")).click();
-                System.out.println("В зоне");
+                for (int j=2; j<Integer.parseInt(countTimezone); j++){
+                    timeZone1 =driver.findElement(By.xpath("//table[@id='table-zones']/tbody/tr["+j+"]/td[3]")).getText();
+                    int j2=j+1;
+                    timeZone2 =driver.findElement(By.xpath("//table[@id='table-zones']/tbody/tr["+j2+"]/td[3]")).getText();
+                    System.out.println(timeZone1+" "+timeZone2);
+                    if (timeZone1.compareTo(timeZone2)>0)
+                    {
+                        System.out.println("Часовые пояса не отсортированы");
+                        return;
+                    }
+                }
                 driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
             }
         }
