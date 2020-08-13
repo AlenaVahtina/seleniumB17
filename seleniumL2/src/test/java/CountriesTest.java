@@ -47,7 +47,6 @@ public class CountriesTest {
                 System.out.println("Страны не отсортированы");
                 return;
             }
-//            System.out.println(driver.findElements(By.cssSelector("tr.row")).get(i-1).findElements(By.cssSelector("td")).get(5).getText());
             countTimezone = driver.findElements(By.cssSelector("tr.row")).get(i).findElements(By.cssSelector("td")).get(5).getText();
             if (!countTimezone.equals("0")){
                 driver.findElements(By.cssSelector("tr.row")).get(i).findElement(By.cssSelector("a")).click();
@@ -55,7 +54,6 @@ public class CountriesTest {
                     timeZone1 =driver.findElement(By.xpath("//table[@id='table-zones']/tbody/tr["+j+"]/td[3]")).getText();
                     int j2=j+1;
                     timeZone2 =driver.findElement(By.xpath("//table[@id='table-zones']/tbody/tr["+j2+"]/td[3]")).getText();
-                    System.out.println(timeZone1+" "+timeZone2);
                     if (timeZone1.compareTo(timeZone2)>0)
                     {
                         System.out.println("Часовые пояса не отсортированы");
