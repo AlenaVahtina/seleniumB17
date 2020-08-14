@@ -20,6 +20,7 @@ public class CountriesTest {
     private String countTimezone;
     private String timeZone1;
     private String timeZone2;
+    private String geoZones;
 
     @Before
     public void start(){
@@ -71,8 +72,26 @@ public class CountriesTest {
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        geoZones = driver.findElement(By.cssSelector("tr.footer td")).getText().split(" ")[2];
+        for (int i=2; i<2+Integer.parseInt(geoZones); i++){
+            if(Integer.parseInt(driver.findElement(By.xpath("//table[@class='dataTable']/tbody//tr["+i+"]/td[4]")).getText())>0){
+                driver.findElement(By.xpath("//table[@class='dataTable']/tbody//tr["+i+"]/td[3]/a")).click();
+                driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                for (int j=0; j<driver.findElements(By.xpath("//table[@class='dataTable']//td[1]")).size()-2;j++){
+                    timeZone1=driver.findElements(By.xpath("//table[@class='dataTable']//td[3]/select/option[@selected='selected']")).get(j).getText();
+                    timeZone2=driver.findElements(By.xpath("//table[@class='dataTable']//td[3]/select/option[@selected='selected']")).get(j+1).getText();
+                    if (timeZone1.compareTo(timeZone2)>0)
+                    {
+                        System.out.println("Зоны не отсортированы");
+                        return;
+                    }
+                }
+                driver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+            }
+        }
 
     }
 
@@ -80,5 +99,7 @@ public class CountriesTest {
     public void stop(){
         driver.quit();
         driver = null;
+        timeZone1=null;
+        timeZone2=null;
     }
 }
