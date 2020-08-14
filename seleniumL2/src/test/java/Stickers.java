@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -37,7 +38,10 @@ public class Stickers {
         else {
             System.out.println("Проверьте, что у каждого товара есть стикер");
         }
-
+        for (int i=0;i<stickerCount;i++){
+            WebElement product = driver.findElements(By.cssSelector("[class^=product]")).get(i);
+            product.findElement(By.cssSelector("[class^=sticker]")).isDisplayed();
+        }
     }
 
 
