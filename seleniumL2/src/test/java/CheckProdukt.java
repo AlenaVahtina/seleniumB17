@@ -20,6 +20,7 @@ public class CheckProdukt {
     private String produktName;
     private String produktPrice;
     private String produktSalePrice;
+    private String mainPriseColor;
 
 
     @Before
@@ -46,6 +47,10 @@ public class CheckProdukt {
             mainName=ducks.get(j);
             if (!block1.findElements(By.xpath(".//div[.='"+mainName+"']/preceding-sibling::div[@class='image-wrapper']/div[@class='sticker sale']")).isEmpty()){
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getText();
+                mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("color");
+//                if (mainPriseColor){
+//
+//                }
                 mainSalePrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getText();
                 if(Integer.parseInt(mainPrise.substring(1))<Integer.parseInt(mainSalePrise.substring(1))){
                     System.out.println("На главной странице скидочная цена больше обычной");
@@ -53,6 +58,9 @@ public class CheckProdukt {
             }
             else {
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getText();
+                mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getCssValue("color");
+
+
             }
             block1.findElement(By.xpath(".//div[.='"+mainName+"']")).click();
             produktName=driver.findElement(By.cssSelector("h1.title")).getText();
