@@ -48,9 +48,10 @@ public class CheckProdukt {
             if (!block1.findElements(By.xpath(".//div[.='"+mainName+"']/preceding-sibling::div[@class='image-wrapper']/div[@class='sticker sale']")).isEmpty()){
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getText();
                 mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("color");
-//                if (mainPriseColor){
-//
-//                }
+                String[] color=mainPriseColor.split(",");
+                if(!(color[0].substring(5).equals(color[1].substring(1)))&&(color[1].substring(1).equals(color[2].substring(1)))){
+                    System.out.println("Цена не серая");
+                }
                 mainSalePrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getText();
                 if(Integer.parseInt(mainPrise.substring(1))<Integer.parseInt(mainSalePrise.substring(1))){
                     System.out.println("На главной странице скидочная цена больше обычной");
@@ -59,6 +60,10 @@ public class CheckProdukt {
             else {
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getText();
                 mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getCssValue("color");
+                String[] color=mainPriseColor.split(",");
+                if(!(color[0].substring(5).equals(color[1].substring(1)))&&(color[1].substring(1).equals(color[2].substring(1)))){
+                    System.out.println("Цена не серая");
+                }
 
 
             }
