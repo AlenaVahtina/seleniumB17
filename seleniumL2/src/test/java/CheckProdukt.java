@@ -27,6 +27,8 @@ public class CheckProdukt {
     private String produktSalePriceColor;
     private Dimension mainPriseSize;
     private Dimension mainSalePriseSize;
+    private String mainSalePriseBold;
+    private String produktSalePriseBold;
 
 
     @Before
@@ -73,6 +75,11 @@ public class CheckProdukt {
                 String[] colorSale=mainSalePriseColor.split(",");
                 if (!(colorSale[1].substring(1).equals(colorSale[2].substring(1)))&&(colorSale[2].substring(1).equals("0"))){
                     System.out.println("Скидочная цена на главной странице не красная");
+                }
+                //Проверка, что скидочная цена на главной странице полужирная
+                mainSalePriseBold=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getCssValue("font-weight");
+                if (Integer.parseInt(mainSalePriseBold)<400){
+                    System.out.println("Скидочная цена на странице товара не выделена жирным");
                 }
                 //Проверка, что скидочная цена меньше первоночальной по наминалу
                 mainSalePrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getText();
@@ -147,6 +154,11 @@ public class CheckProdukt {
                 String[] colorSale2=produktSalePriceColor.split(",");
                 if (!(colorSale2[1].substring(1).equals(colorSale2[2].substring(1)))&&(colorSale2[2].substring(1).equals("0"))) {
                     System.out.println("Скидочная цена на странице товара не красная");
+                }
+                //Проверка, что скидочная цена на странице товара полужирная
+                produktSalePriseBold=driver.findElement(By.xpath("//div/strong[@class='campaign-price']")).getCssValue("font-weight");
+                if (Integer.parseInt(mainSalePriseBold)<400){
+                    System.out.println("Скидочная цена на главной странице не выделена жирным");
                 }
                 //Проверка, что скидочная цена меньше первоночальной по размеру на странице продукта
                 mainPriseSize=driver.findElement(By.xpath("//div/s[@class='regular-price']")).getSize();
