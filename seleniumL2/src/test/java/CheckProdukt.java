@@ -2,6 +2,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -24,6 +25,8 @@ public class CheckProdukt {
     private String mainSalePriseColor;
     private String produktPriceColor;
     private String produktSalePriceColor;
+    private Dimension mainPriseSize;
+    private Dimension mainSalePriseSize;
 
 
     @Before
@@ -53,6 +56,8 @@ public class CheckProdukt {
             //Проверка на наличия стикера скидка, потому что если его нет, нет скидочной цены, а основная не перечеркнута
             if (!block1.findElements(By.xpath(".//div[.='"+mainName+"']/preceding-sibling::div[@class='image-wrapper']/div[@class='sticker sale']")).isEmpty()){
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getText();
+                //Вывод описание утки для проверки
+                System.out.println("Утака "+mainName+" цена "+mainPrise+" цена по скидке "+mainSalePrise);
                 //Проверка цвета первоночальной цены на главной странице
                 mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("color");
                 String[] color=mainPriseColor.split(",");
@@ -74,9 +79,17 @@ public class CheckProdukt {
                 if(Integer.parseInt(mainPrise.substring(1))<Integer.parseInt(mainSalePrise.substring(1))){
                     System.out.println("На главной странице скидочная цена больше обычной");
                 }
+                //Проверка, что скидочная цена меньше первоночальной по размеру на основной странице
+                mainSalePriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getSize();
+                mainPriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getSize();
+                if (Integer.parseInt(mainSalePriseSize.toString().split(",")[0].substring(1))<Integer.parseInt(mainPriseSize.toString().split(",")[0].substring(1))){
+                    System.out.println("Скидочная цена на главной странице меньше основной");
+                }
             }
             else {
                 mainPrise=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getText();
+                //Вывод описание утки для проверки
+                System.out.println("Утака "+mainName+" цена "+mainPrise+" цена по скидке "+mainSalePrise);
                 mainPriseColor=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//span[@class='price']")).getCssValue("color");
                 String[] color=mainPriseColor.split(",");
                 if(!(color[0].substring(5).equals(color[1].substring(1)))&&(color[1].substring(1).equals(color[2].substring(1)))){
@@ -135,17 +148,24 @@ public class CheckProdukt {
                 if (!(colorSale2[1].substring(1).equals(colorSale2[2].substring(1)))&&(colorSale2[2].substring(1).equals("0"))) {
                     System.out.println("Скидочная цена на странице товара не красная");
                 }
+                //Проверка, что скидочная цена меньше первоночальной по размеру на странице продукта
+                mainPriseSize=driver.findElement(By.xpath("//div/s[@class='regular-price']")).getSize();
+                mainSalePriseSize=driver.findElement(By.xpath("//div/strong[@class='campaign-price']")).getSize();
+                if (Integer.parseInt(mainSalePriseSize.toString().split(",")[0].substring(1))<Integer.parseInt(mainPriseSize.toString().split(",")[0].substring(1))){
+                    System.out.println("Скидочная цена на главной странице меньше основной");
+                }
             }
             //Возвращение на основную страницу и обнуление переменных
             driver.get("http://localhost/litecart/en/");
             block1 = driver.findElement(By.cssSelector("div#box-most-popular"));
-            System.out.println("Утака "+mainName+" цена "+mainPrise+" цена по скидке "+mainSalePrise);
             mainPrise=null;
             mainName=null;
             mainSalePrise=null;
             produktName=null;
             produktPrice=null;
             produktSalePrice=null;
+            mainSalePriseSize=null;
+            mainPriseSize=null;
         }
     }
 
