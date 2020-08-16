@@ -25,8 +25,8 @@ public class CheckProdukt {
     private String mainSalePriseColor;
     private String produktPriceColor;
     private String produktSalePriceColor;
-    private Dimension mainPriseSize;
-    private Dimension mainSalePriseSize;
+    private String mainPriseSize;
+    private String mainSalePriseSize;
     private String mainSalePriseBold;
     private String produktSalePriseBold;
 
@@ -87,9 +87,9 @@ public class CheckProdukt {
                     System.out.println("На главной странице скидочная цена больше обычной");
                 }
                 //Проверка, что скидочная цена меньше первоночальной по размеру на основной странице
-                mainSalePriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getSize();
-                mainPriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getSize();
-                if (Integer.parseInt(mainSalePriseSize.toString().split(",")[0].substring(1))<Integer.parseInt(mainPriseSize.toString().split(",")[0].substring(1))){
+                mainSalePriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//strong[@class='campaign-price']")).getCssValue("font-size");
+                mainPriseSize=block1.findElement(By.xpath(".//div[.='"+mainName+"']/following::div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("font-size");
+                if (Float.parseFloat(mainSalePriseSize.toString().split("px")[0])<Float.parseFloat(mainPriseSize.split("px")[0])){
                     System.out.println("Скидочная цена на главной странице меньше основной");
                 }
             }
@@ -161,9 +161,9 @@ public class CheckProdukt {
                     System.out.println("Скидочная цена на главной странице не выделена жирным");
                 }
                 //Проверка, что скидочная цена меньше первоночальной по размеру на странице продукта
-                mainPriseSize=driver.findElement(By.xpath("//div/s[@class='regular-price']")).getSize();
-                mainSalePriseSize=driver.findElement(By.xpath("//div/strong[@class='campaign-price']")).getSize();
-                if (Integer.parseInt(mainSalePriseSize.toString().split(",")[0].substring(1))<Integer.parseInt(mainPriseSize.toString().split(",")[0].substring(1))){
+                mainPriseSize=driver.findElement(By.xpath("//div/s[@class='regular-price']")).getCssValue("font-size");
+                mainSalePriseSize=driver.findElement(By.xpath("//div/strong[@class='campaign-price']")).getCssValue("font-size");
+                if (Float.parseFloat(mainSalePriseSize.toString().split("px")[0])<Float.parseFloat(mainPriseSize.split("px")[0])){
                     System.out.println("Скидочная цена на главной странице меньше основной");
                 }
             }
