@@ -125,6 +125,10 @@ public class CheckProdukt {
                 if(!(color2[0].substring(5).equals(color2[1].substring(1)))&&(color2[1].substring(1).equals(color2[2].substring(1)))){
                     System.out.println("Цена не серая");
                 }
+                //Проверка, что основная цена перечеркнута
+                if(!driver.findElement(By.xpath("//div/s[@class='regular-price']")).getCssValue("text-decoration").split(" ")[0].equals("line-through")){
+                    System.out.println("Первоночальная цена не перечеркнута");
+                }
                 //Проверка, что скидочная цена красная
                 produktSalePriceColor=driver.findElement(By.xpath("//div/strong[@class='campaign-price']")).getCssValue("color");
                 String[] colorSale2=produktSalePriceColor.split(",");
