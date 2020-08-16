@@ -40,7 +40,8 @@ public class Stickers {
         }
         for (int i=0;i<stickerCount;i++){
             WebElement product = driver.findElements(By.cssSelector("[class^=product]")).get(i);
-            product.findElement(By.cssSelector("[class^=sticker]")).isDisplayed();
+            product.findElements(By.cssSelector("[class^=sticker]")).size();
+            System.out.println(product.findElements(By.cssSelector("[class^=sticker]")).size());
         }
     }
 
