@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -5,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -54,13 +56,35 @@ public class CreateProdukt {
         uploadFile.sendKeys(file.getAbsolutePath().split("du.jpeg")[0]+"src/test/java/du.jpeg");
         driver.findElement(By.name("date_valid_from")).sendKeys("10102020");
         driver.findElement(By.name("date_valid_to")).sendKeys("10102022");
-
+        //Заполнение вкладки Information
+        driver.findElement(By.xpath("//a[.='Information']")).click();
+        Select manufacturer_id=new Select(driver.findElement(By.name("manufacturer_id")));
+        manufacturer_id.selectByVisibleText("ACME Corp.");
+        driver.findElement(By.name("keywords")).sendKeys("Unicorn");
+        driver.findElement(By.name("short_description[en]")).sendKeys("Pink duck unicorn");
+        driver.findElement(By.xpath("//div[@class='trumbowyg-editor']")).sendKeys("Pink duck unicorn");
+        driver.findElement(By.name("head_title[en]")).sendKeys("Duck unicorn");
+        driver.findElement(By.name("meta_description[en]")).sendKeys("Duck unicorn");
+        //Заполнение вкладки Prices
+        driver.findElement(By.xpath("//a[.='Prices']")).click();
+        driver.findElement(By.name("purchase_price")).sendKeys("10");
+        Select purchase_price_currency_code = new Select(driver.findElement(By.name("purchase_price_currency_code")));
+        purchase_price_currency_code.selectByVisibleText("US Dollars");
+        driver.findElement(By.name("prices[USD]")).sendKeys("10");
+        //Соранение продукта
+        driver.findElement(By.name("save")).click();
+        //Проверка, что продукт создан
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        boolean isCreated=driver.findElement(By.xpath("//a[.='Duck unicorn']")).isDisplayed();
+        if(isCreated){
+            System.out.println("Продукт создан");
+        }
     }
 
 
-//    @After
-//    public void stop(){
-//        driver.quit();
-//        driver = null;
-//    }
+    @After
+    public void stop(){
+        driver.quit();
+        driver = null;
+    }
 }
