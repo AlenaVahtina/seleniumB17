@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,11 @@ import static settings.IdentifyOS.isWindows;
 
 public class Country {
      private WebDriver driver;
+     private String mainWindow;
+     private String newWindow;
+     private Set<String> oldWindows;
+
+
     @Before
     public void start(){
         ChromeOptions options = new ChromeOptions();
@@ -37,12 +43,18 @@ public class Country {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("http://localhost/litecart/admin/?app=countries&doc=countries");
         driver.findElement(By.xpath("//a[.=' Add New Country']")).click();
-        String mainWindow = driver.getWindowHandle();
         List<WebElement> links= driver.findElements(By.xpath("//i[@class='fa fa-external-link']"));
         for (int i=0;i<links.size();i++){
-            Set<String> oldWindows = driver.getWindowHandles();
+            mainWindow = driver.getWindowHandle();
+            oldWindows = driver.getWindowHandles();
             links.get(i).click();
-//            String newWindow = wait.until(thereIsWindowOtherThan(oldWindows));
+             newWindow = wait.until((test) -> {
+                Set<String> handles = test.getWindowHandles();
+                handles.removeAll(oldWindows);
+                 return handles.size() > 0 ? handles.iterator().next() : null;
+            });
+            driver.switchTo().window(newWindow);
+            driver.close();
             driver.switchTo().window(mainWindow);
         }
     }
