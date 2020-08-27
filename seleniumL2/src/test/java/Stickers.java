@@ -31,17 +31,12 @@ public class Stickers {
         int productCount = driver.findElements(By.cssSelector("[class^=product]")).size();
         System.out.println("Количестово уток "+productCount);
         int stickerCount= driver.findElements(By.cssSelector("[class^=sticker]")).size();
-        System.out.println("Количестово стикеров "+stickerCount);
-        if(productCount==stickerCount){
-            System.out.println("У каждого продукта есть стикер");
-        }
-        else {
-            System.out.println("Проверьте, что у каждого товара есть стикер");
-        }
         for (int i=0;i<stickerCount;i++){
             WebElement product = driver.findElements(By.cssSelector("[class^=product]")).get(i);
             product.findElements(By.cssSelector("[class^=sticker]")).size();
-            System.out.println(product.findElements(By.cssSelector("[class^=sticker]")).size());
+            if (product.findElements(By.cssSelector("[class^=sticker]")).size()!=1){
+                System.out.println("Количество стикеров больше не равно 1");
+            }
         }
     }
 
